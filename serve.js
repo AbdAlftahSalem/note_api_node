@@ -7,6 +7,8 @@ const bodyParser = require("body-parser");
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
+const {ApiError} = require("./utils/error_handeler");
+const globalError = require("./middlewere/error_handle");
 
 const app = express()
 app.use(bodyParser.json());
@@ -24,7 +26,7 @@ app.use(compression());
 
 
 // Middlewares
-app.use(express.json({ limit: '20kb' }));
+app.use(express.json({limit: '20kb'}));
 
 
 // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -34,6 +36,13 @@ const limiter = rateLimit({
     message:
         'Too many accounts created from this IP, please try again after an hour',
 });
+
+
+app.all('*', (req, res, next) => {
+    next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
+});
+
+app.use(globalError);
 
 
 app.listen(process.env.PORT, () => {

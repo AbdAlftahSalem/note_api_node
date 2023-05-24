@@ -8,8 +8,6 @@ dbConnection = async () => {
     await mongoose.connect(url_connect, {useNewUrlParser: true}).then((_) => {
 
     }).catch((e) => {
-        console.log("ERROR")
-        console.log(e)
         process.exit(1)
     });
 }

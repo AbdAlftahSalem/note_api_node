@@ -4,8 +4,7 @@ const validatorMiddleWare = (req, res, next) => {
     // middleware to catch error
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        // console.log("******************************************************************************")
-        // console.log(errors.array())
+
         return res.status(400).json({errors: updatedData(errors.array())});
     } else {
         next()

@@ -24,7 +24,6 @@ exports.loginUser = async (req, res, next) => {
     if (!user) {
         return res.status(404).json({"status": false, "message": " Email or password incorrect"})
     } else {
-        console.log(await bcrypt.compare(req.body.password, user["password"]))
         if (await bcrypt.compare(req.body.password, user["password"])) {
             const token = generateToken(user["_id"])
             return res.status(200).json({data: user, token})
@@ -63,7 +62,6 @@ exports.protectRout = async (req, res, next) => {
     const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
 
     //  check if user in Database
-    console.log(decodeToken)
     const currentUser = await User.findById(decodeToken["user_id"])
 
     if (!currentUser) {
