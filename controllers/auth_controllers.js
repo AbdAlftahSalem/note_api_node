@@ -3,6 +3,8 @@ const {ApiError} = require("../utils/error_handeler");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
+const env = require("dotenv");
+env.config({path: "./config.env"})
 
 exports.registerUser = async (req, res, next) => {
 
@@ -13,18 +15,20 @@ exports.registerUser = async (req, res, next) => {
         "role": req.body.role,
     })
 
-    const token = generateToken(user._id)
+    const token = generateToken(user["_id"])
     res.status(200).json({date: user, token})
 }
 
 exports.loginUser = async (req, res, next) => {
-    const email = req.body.email
-    const password = req.body.password
-
     const user = await User.findOne({email: req.body.email})
-    if (user || bcrypt.compare(req.body.password, user["password"])) {
-        return next(ApiError("Invalid email or password"))
+    if (!user) {
+        if (bcrypt.compare(req.body.password, user["password"])) {
+            return next(ApiError("Invalid email or password"))
+        }
     }
+    // if (user || bcrypt.compare(req.body.password, user["password"])) {
+    //     return next(ApiError("Invalid email or password"))
+    // }
     const token = generateToken(user["_id"])
     res.status(200).json({data: user, token})
 }
@@ -55,7 +59,7 @@ exports.protectRout = async (req, res, next) => {
     }
 
     //  verify token if valid expired token
-    const decodeToken = jwt.verify(token, "ABDABDABDABDABDABDABDABDABDABD")
+    const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
 
     //  check if user in Database
     const currentUser = await User.findById(decodeToken.userId)
@@ -65,15 +69,6 @@ exports.protectRout = async (req, res, next) => {
     }
 
 
-    //  check if password has change
-    if (currentUser.password_change_at) {
-        const passwordChangeTimeStamp = parseInt(currentUser.password_change_at.getTime() / 1000, 10);
-
-        if (passwordChangeTimeStamp > decodeToken.iat) {
-            return next(ApiError("Token Invalido", 401));
-        }
-    }
-
     req.user = currentUser
     next();
 
@@ -81,7 +76,7 @@ exports.protectRout = async (req, res, next) => {
 }
 
 const generateToken = (userId) => {
-    return jwt.sign({userId: userId}, "ABDABDABDABDABDABDABDABDABDABD", {
-        expiresIn: "90d"
+    return jwt.sign({userId: userId}, "", {
+        expiresIn: "90d",
     })
 }
