@@ -37,6 +37,7 @@ const limiter = rateLimit({
         'Too many accounts created from this IP, please try again after an hour',
 });
 
+app.use('/api', limiter);
 
 app.all('*', (req, res, next) => {
     next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
