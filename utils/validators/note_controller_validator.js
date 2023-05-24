@@ -2,7 +2,7 @@ const {check} = require('express-validator');
 
 const validator = require("../../middlewere/validator")
 
-
+const User = require("../../models/user_model")
 exports.addNote = [
 
 
@@ -11,7 +11,6 @@ exports.addNote = [
         .withMessage("Too Short title")
         .isLength({max: 100}).withMessage("Too long title"),
 
-    // check("user").isMongoId().withMessage("Please enter valid id"),
 
     check("finishDate")
         .notEmpty()
