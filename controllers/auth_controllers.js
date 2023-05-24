@@ -30,9 +30,6 @@ exports.loginUser = async (req, res, next) => {
             return  res.status(200).json({data: user, token})
         }
     }
-    // if (user || bcrypt.compare(req.body.password, user["password"])) {
-    //     return next(ApiError("Invalid email or password"))
-    // }
     return res.status(404).json({"status": false, "message": " Email or password incorrect"})
 
 }
