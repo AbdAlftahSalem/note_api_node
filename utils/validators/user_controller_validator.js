@@ -4,16 +4,12 @@ const validator = require("../../middlewere/validator")
 
 
 exports.registerUser = [
-    check("name").notEmpty().withMessage("Enter name").isLength({min: 3})
-        .withMessage("Too Short name")
-        .isLength({max: 14})
-        .withMessage("Too long name"),
 
 
-    check("userName").notEmpty().withMessage("Enter username")
+    check("user_name")
         .isLength({min: 3})
         .withMessage("Too Short username")
-        .isLength({max: 18}),
+        .isLength({max: 20}).withMessage("Too long username"),
 
     check("email").notEmpty().isEmail().withMessage("Enter valid email")
         .isLength({min: 3})
@@ -30,8 +26,6 @@ exports.registerUser = [
         .notEmpty().withMessage("password confirm required")
         .isLength({min: 6})
         .withMessage("password at lease have 6 char"),
-
-    check("phoneNumber").notEmpty().withMessage("Enter valid phone number"), check("apiKey").notEmpty().withMessage("Enter valid api key"), check("apiSecretKey").notEmpty().withMessage("Enter valid api secret key"),
 
     validator,]
 

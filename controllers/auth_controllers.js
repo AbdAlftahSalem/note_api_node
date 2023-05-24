@@ -22,15 +22,19 @@ exports.registerUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
     const user = await User.findOne({email: req.body.email})
     if (!user) {
-        if (bcrypt.compare(req.body.password, user["password"])) {
-            return next(ApiError("Invalid email or password"))
+        return res.status(404).json({"status": false, "message": " Email or password incorrect"})
+    } else {
+        console.log(await bcrypt.compare(req.body.password, user["password"]))
+        if (await bcrypt.compare(req.body.password, user["password"])) {
+            const token = generateToken(user["_id"])
+            return  res.status(200).json({data: user, token})
         }
     }
     // if (user || bcrypt.compare(req.body.password, user["password"])) {
     //     return next(ApiError("Invalid email or password"))
     // }
-    const token = generateToken(user["_id"])
-    res.status(200).json({data: user, token})
+    return res.status(404).json({"status": false, "message": " Email or password incorrect"})
+
 }
 
 
@@ -76,7 +80,11 @@ exports.protectRout = async (req, res, next) => {
 }
 
 const generateToken = (userId) => {
-    return jwt.sign({userId: userId}, "", {
-        expiresIn: "90d",
-    })
+    return jwt.sign(
+        {user_id: userId},
+        process.env.TOKEN_SECRET,
+        {
+            expiresIn: "2h",
+        }
+    )
 }
