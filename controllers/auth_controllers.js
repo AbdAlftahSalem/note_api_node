@@ -27,7 +27,7 @@ exports.loginUser = async (req, res, next) => {
         console.log(await bcrypt.compare(req.body.password, user["password"]))
         if (await bcrypt.compare(req.body.password, user["password"])) {
             const token = generateToken(user["_id"])
-            return  res.status(200).json({data: user, token})
+            return res.status(200).json({data: user, token})
         }
     }
     return res.status(404).json({"status": false, "message": " Email or password incorrect"})
@@ -50,27 +50,28 @@ exports.protectRout = async (req, res, next) => {
     //  get token form headers
 
     let token;
-    if (req.headers["authrization"] && req.headers["authrization"].startWith("Bearer")) {
+    if (req.headers["authorization"] && req.headers["authorization"]) {
 
-        token = req.headers["authrization"].split(" ")[1]
+        token = req.headers["authorization"].split(" ")[1]
     }
 
     if (!token) {
-        next(ApiError("You are not login", 401))
+        return res.status(401).json({"message": "You are not login", "status": false})
     }
 
     //  verify token if valid expired token
     const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
 
     //  check if user in Database
-    const currentUser = await User.findById(decodeToken.userId)
+    console.log(decodeToken)
+    const currentUser = await User.findById(decodeToken["user_id"])
 
     if (!currentUser) {
-        return next(ApiError("No user found", 401));
+        return res.status(401).json({"message": "You are not login", "status": false})
     }
 
 
-    req.user = currentUser
+    req.body.user = currentUser
     next();
 
 

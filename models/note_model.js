@@ -14,6 +14,7 @@ const NoteSchema = new mongoose.Schema({
         type: String,
         minLength: [5, "The description is too short"],
         maxLength: [2000, "The description is too long"],
+        default: null,
     },
 
     user: {
@@ -23,7 +24,7 @@ const NoteSchema = new mongoose.Schema({
     },
 
     finishDate: {
-        type: Date,
+        type: String,
         required: [true, 'The finish date is required'],
     },
 
