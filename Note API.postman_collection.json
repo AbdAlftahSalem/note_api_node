@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "6d954b40-6a9e-4d17-a269-3a481f84ad8e",
+		"name": "Note API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14705254"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" :\"email@gamail.com\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/login",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ2ZGU5OTYzZjkxNzIwNWQxYjE5MDM2IiwiaWF0IjoxNjg0OTMyMjkxLCJleHAiOjE2ODQ5Mzk0OTF9.All8l5v1-BnFPkHSsiS-00t6cBirLhAkXksS38E2Q70",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}auth/get-me",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"get-me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_name\" : \"Abd Alftah\",\r\n    \"email\" :\"email2@gamail.com\",\r\n    \"password\": \"123456789\",\r\n    \"passwordConfirm\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/register",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Note",
+			"item": [
+				{
+					"name": "Get notes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ2ZTEzZWRjNzhlMWE2ZjVmNGYzOWY3IiwiaWF0IjoxNjg0OTM1NjYyLCJleHAiOjE2ODQ5NDI4NjJ9.cX_rESH8aWREEl6tmsqsvymssAvJgXRH7ASPpXxnq4E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}note/get-all-note",
+							"host": [
+								"{{url}}note"
+							],
+							"path": [
+								"get-all-note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ2ZTEzZWRjNzhlMWE2ZjVmNGYzOWY3IiwiaWF0IjoxNjg0OTM1NjYyLCJleHAiOjE2ODQ5NDI4NjJ9.cX_rESH8aWREEl6tmsqsvymssAvJgXRH7ASPpXxnq4E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"This is title\",\r\n    \"description\" : \"descriptiondescriptiondescription\",\r\n    \"finishDate\" : \"2023-05-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}note/add-note",
+							"host": [
+								"{{url}}note"
+							],
+							"path": [
+								"add-note"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8000/api/v1/"
+		}
+	]
+}
