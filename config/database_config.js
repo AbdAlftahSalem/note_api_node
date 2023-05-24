@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
+const env = require("dotenv");
+env.config({path: "./config.env"})
+const url_connect = process.env.DATABASE_URL
+
 dbConnection = async () => {
-    const url = 'mongodb+srv://abd:ljunB4ICQb6jV6iQ@cluster0.lhzqv.mongodb.net/note_api';
-    await mongoose.connect(url, {useNewUrlParser: true}).then((_) => {
+    await mongoose.connect(url_connect, {useNewUrlParser: true}).then((_) => {
 
     }).catch((e) => {
         console.log("ERROR")
+        console.log(e)
         process.exit(1)
     });
 }
