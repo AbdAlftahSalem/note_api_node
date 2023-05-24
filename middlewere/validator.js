@@ -4,10 +4,17 @@ const validatorMiddleWare = (req, res, next) => {
     // middleware to catch error
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        // console.log("******************************************************************************")
+        // console.log(errors.array())
+        return res.status(400).json({errors: updatedData(errors.array())});
     } else {
         next()
     }
 }
+
+const updatedData = (data) => data.map((dict) => {
+    const {value, ...rest} = dict;
+    return rest;
+});
 
 module.exports = validatorMiddleWare

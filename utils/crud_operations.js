@@ -24,12 +24,9 @@ class CrudOperations {
 
     }
 
-    static async getOneElement(req, res, next, model) {
+    static async getOneElement(req, res, next, model, id) {
 
-        const id = req.params.id
-
-
-        const data = await model.findById(id).select('-__v')
+        const data = await model.findById(req.body.user._id).select('-__v')
         if (!data) {
             return {"data": [], "statusCode": 200, "message": "no item found"}
         }
