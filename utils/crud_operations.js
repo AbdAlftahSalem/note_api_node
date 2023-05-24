@@ -2,7 +2,7 @@ const {ApiError} = require("../utils/error_handeler");
 
 class CrudOperations {
 
-    static async getAllData(req, res, next, model) {
+    static async getAllData(req, res, next, model, filter = {}) {
 
 
         const page = req.query["page"] * 1 || 1
@@ -16,7 +16,7 @@ class CrudOperations {
             numberOfPages = (numberOfPages | 0) + 1
         })
 
-        const data = await model.find({}).select('-__v').sort("-createdAt").skip(skip).limit(limit);
+        const data = await model.find(filter).select('-__v').sort("-createdAt").skip(skip).limit(limit);
         return {
             "data": data, "statusCode": 200, "message": "successfully request"
         }

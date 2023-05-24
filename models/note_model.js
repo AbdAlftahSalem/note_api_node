@@ -24,7 +24,7 @@ const NoteSchema = new mongoose.Schema({
     },
 
     finishDate: {
-        type: String,
+        type: Date,
         required: [true, 'The finish date is required'],
     },
 
