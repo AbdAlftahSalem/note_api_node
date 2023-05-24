@@ -34,15 +34,15 @@ exports.loginUser = async (req, res, next) => {
 
 }
 
+exports.getMe = async (req, res, next) => {
+    const user = await User.findById(req.body.user._id)
+    if (!user) {
+        res.status(404).json({"message": "user not found , please login again"})
+    } else {
+        res.status(200).json(user)
 
-exports.changeUserPassword = async (req, res, next) => {
-    const {id} = req.params.id
+    }
 
-    return await User.updateOne(id, {
-        "password": await bcrypt.hash(req.body.password, 12), "password_change_at": Date.now(),
-    }, {returnOriginal: false}).then((v) => {
-        res.status(200).json({"status": true, "itemUpdatedId": id, "data": v})
-    }).catch((e) => next(new ApiError(e, 400)))
 }
 
 

@@ -2,7 +2,6 @@ const {check} = require('express-validator');
 
 const validator = require("../../middlewere/validator")
 
-const User = require("../../models/user_model")
 exports.addNote = [
 
 
