@@ -1,11 +1,10 @@
 const express = require("express")
-const mountRoutes = require("./rout");
+const mountRoutes = require("./routs");
 const dbConnection = require("./config/database_config");
 
 
 const app = express()
 
-app.get("/", (req, res, next) => res.send("HI"))
 // Mount Routes
 dbConnection().then(_ => console.log("Connecting to database success ....."))
 
